@@ -29,13 +29,14 @@ app.get("/video/:filename", (req, res) => {
     const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
 
     const chunkSize = end - start + 1;
+    console.log(chunkSize);
     const stream = fs.createReadStream(videoPath, { start, end });
 
     res.writeHead(206, {
       "Content-Range": `bytes ${start}-${end}/${fileSize}`,
       "Accept-Ranges": "bytes",
       "Content-Length": chunkSize,
-      "Content-Type": "video/mp4", // adjust based on your file type
+      "Content-Type": "video/mp4",
     });
 
     stream.pipe(res);
